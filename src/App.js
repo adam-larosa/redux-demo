@@ -1,32 +1,26 @@
-
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { addSecret, fetchSecrets } from './reducers/secretsSlice'
 
 function App() {
-
 	const dispatch = useDispatch()
 
-	const ourState = useSelector( theState => {
-		return theState
-	} )
+	const [ newSecret, setNewSecret ] = useState( '' )
+	const secrets = useSelector( stateObj => stateObj.secrets )
+	const editInput = e => setNewSecret( e.target.value )
+	const dispatchSecret = () => dispatch( addSecret( newSecret ) )
+	
 
-	const changeState = () => {
-
-		const theAction = {
-			type: 'user/add',
-			payload: 'the third string'
-		}
-
-		dispatch( theAction )
-	}
+	useEffect( () => {
+		dispatch( fetchSecrets() )
+	}, [] ) 
 
 	return (
 		<>
-			<div>
-				{ ourState.map( (s, i) => <h1 key={i}>{ s }</h1>)}
-			</div>
-			<button onClick={ changeState }>
-				CLICK ME TO CHANGE STATE
-			</button>
+			<h1>meow</h1>
+			<input onChange={ editInput }/>
+			<button onClick={ dispatchSecret }>add secret</button>
+			{ secrets.map( (sObj, i) => <h3 key={i}>{ sObj.content }</h3>) }
 		</>
 	);
 }

@@ -1,15 +1,12 @@
 
 
-const initialState = [ 'first meow', 'second meow' ]
+const initialState = 'the "user" in state - default value'
 
 
 export const userReducer = ( state = initialState, action ) => {
     switch( action.type ) {
-        case 'user/add':
-            const new_state = [ ...state ]
-            new_state.push( action.payload )
-            return new_state 
-        
+        case 'user/set':
+            return action.payload
         default:
             return state
     }
